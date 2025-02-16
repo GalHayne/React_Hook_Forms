@@ -17,8 +17,13 @@ export type FoodDeliveryMasterFormType = {
   email: string;
 };
 
+export type FoodItemType = {
+  name: string
+}
+
 export type FoodDeliveryFormType = {
   address: AddressFormType
+  foodItems:FoodItemType[]
 } & CheckoutFormType & FoodDeliveryMasterFormType;
 
 export type SelectOptionsType =

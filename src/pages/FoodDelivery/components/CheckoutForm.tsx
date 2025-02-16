@@ -1,6 +1,8 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import { CheckoutFormType, SelectOptionsType } from "../../../types";
 import { Select } from "../../../controls/Select";
+import { getRenderCount } from "../../../utils/useRenderCount";
+import { useEffect } from "react";
 
 const paymentOptions: SelectOptionsType[] = [
   { value: "", text: "Select..." },
@@ -16,11 +18,14 @@ const deliveryInOptions: SelectOptionsType[] = [
   { value: 180, text: "3 Hours" },
 ];
 
+const RenderCount = getRenderCount();
+
 export const CheckoutForm = () => {
-    const {
-        register,
-        formState: { errors },
-      } = useFormContext<CheckoutFormType>();
+  const { register } = useFormContext<CheckoutFormType>();
+
+  const { errors } = useFormState<CheckoutFormType>({
+    name: ["paymentMethod", "deliveryIn"], exact: true
+  });
 
 
   return (

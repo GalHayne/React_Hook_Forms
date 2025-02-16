@@ -5,6 +5,7 @@ import { FoodDeliveryFormType } from "../../types";
 import { DeliveryAddressForm } from "./components/DeliveryAddressForm";
 import { FoodDeliverMaster } from "./components/FoodDeliverMaster";
 import { SubmitButton } from "../../controls/SubmitButton";
+import FoodItems from "./components/FoodItems";
 
 
 const RenderCount = getRenderCount();
@@ -21,6 +22,10 @@ export const FoodDeliveryForm = () => {
         email: "",
         paymentMethod: "",
         deliveryIn: 0,
+        foodItems: [
+          { name: "Chiecken Tender" },
+          { name: "Sweet Potato Fries" },
+        ],
         address: {
           streetAddress: "",
           landmark: "",
@@ -32,18 +37,22 @@ export const FoodDeliveryForm = () => {
     
     const {
       handleSubmit,
-      formState: {isSubmitting}
+      control,
+      setValue, 
     } = methods;
-    
-    console.log("🚀 ~ FoodDeliveryForm ~ isSubmitting:", isSubmitting)
-  
-  const onSubmit = async (fomrData: FoodDeliveryFormType) => {
-    await new Promise(resolve => setTimeout(resolve,2000))
-    console.log("🚀 ~ onSubmit ~ fomrData:", fomrData);
-  };
 
-  const onError = (error: FieldErrors) => {
-    console.log("🚀 ~ onSubmit ~ error:", error);
+    
+    const onSubmit = async (fomrData: FoodDeliveryFormType) => {
+      await new Promise(resolve => setTimeout(resolve,3000))
+      console.log("🚀 ~ onSubmit ~ fomrData:", fomrData);
+    };
+
+    const onDemo = () => {
+      setValue("paymentMethod", "COD", {shouldValidate: false})
+    }
+    
+    const onError = (error: FieldErrors) => {
+      console.log("🚀 ~ onSubmit ~ error:", error);
   };
 
   return (
@@ -56,11 +65,13 @@ export const FoodDeliveryForm = () => {
       <div>list of ordered food items</div>
       <FormProvider {...methods}>
         <FoodDeliverMaster />
+        <FoodItems/>
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
 
-      <SubmitButton value="Submit" isSubmitting={isSubmitting}/>
+      <SubmitButton value="Submit" control={control}/>
+      <button onClick={onDemo} className="btn btn-secondary ms-2">Demo</button>
     </form>
   );
 };

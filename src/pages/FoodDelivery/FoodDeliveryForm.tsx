@@ -20,11 +20,11 @@ export const FoodDeliveryForm = () => {
         customerName: "",
         mobile: "",
         email: "",
+        gTotal: 0,
         paymentMethod: "",
         deliveryIn: 0,
         foodItems: [
-          { name: "", quantity: 1 },
-          { name: "", quantity: 2 },
+          { foodId: 0, price: 0 , quantity: 0 , totalPrice: 0},
         ],
         address: {
           streetAddress: "",
@@ -39,6 +39,7 @@ export const FoodDeliveryForm = () => {
       handleSubmit,
       control,
       setValue, 
+      getValues
     } = methods;
 
     
@@ -48,7 +49,11 @@ export const FoodDeliveryForm = () => {
     };
 
     const onDemo = () => {
-      setValue("paymentMethod", "COD", {shouldValidate: false})
+      // setValue("paymentMethod", "COD", {shouldValidate: false})
+      getValues("foodItems.0.foodId")
+      console.log("🚀 ~ onDemo ~ getValues:", getValues("foodItems.0"))
+      console.log("🚀 ~ onDemo ~ getValues:", typeof getValues("foodItems.0.foodId"))
+
     }
     
     const onError = (error: FieldErrors) => {

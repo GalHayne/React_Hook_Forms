@@ -24,9 +24,9 @@ export const CheckoutForm = () => {
   const { register } = useFormContext<CheckoutFormType>();
 
   const { errors } = useFormState<CheckoutFormType>({
-    name: ["paymentMethod", "deliveryIn"], exact: true
+    name: ["paymentMethod", "deliveryIn"],
+    exact: true,
   });
-
 
   return (
     <>
@@ -37,6 +37,7 @@ export const CheckoutForm = () => {
             label="Payment Method"
             options={paymentOptions}
             {...register("paymentMethod", {
+              valueAsNumber: true,
               required: "This field is required",
             })}
             error={errors.paymentMethod}

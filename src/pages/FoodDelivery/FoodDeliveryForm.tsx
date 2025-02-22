@@ -56,11 +56,13 @@ export const FoodDeliveryForm = () => {
       control,
       setValue, 
       getValues,
-      setFocus
+      setFocus,
+      unregister
     } = methods;
 
     
     const onSubmit = async (formData: FoodDeliveryFormType) => {
+      console.log("🚀 ~ onSubmit ~ formData:", formData)
       await new Promise(resolve => setTimeout(resolve,3000))
       formData.orderId = 1;
       formData.placeOn = new Date();

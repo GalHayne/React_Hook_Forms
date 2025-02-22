@@ -3,7 +3,8 @@ import { TextField } from "../../../controls/TextField";
 import { MasterFoodDeliveryFormType } from "../../../types";
 // import { getRenderCount } from "../../../utils/useRenderCount";
 
-// const RenderCount = getRenderCount();
+// const RenderCount = getRenderCount()
+// 
 
 export const MasterFoodDeliveryForm = () => {
 
@@ -20,8 +21,8 @@ export const MasterFoodDeliveryForm = () => {
         <div className="col">
           <TextField
             type="text"
-            disabled
             label="#Order No."
+            disabled
             {...register("orderNo")}
           />
         </div>

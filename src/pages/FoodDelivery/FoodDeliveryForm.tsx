@@ -6,53 +6,70 @@ import { DeliveryAddressForm } from "./components/DeliveryAddressForm";
 import { SubmitButton } from "../../controls/SubmitButton";
 import OrderedFoodItems from "./components/OrderedFoodItems";
 import { MasterFoodDeliveryForm } from "./components/MasterFoodDeliveryForm";
+import { createOrder, fetchLastOrder } from "../../db";
 
 
 const RenderCount = getRenderCount();
 
+const id:number = 0;
+
+const defaultValues: FoodDeliveryFormType = {
+
+  orderId: 0,
+  orderNo: new Date().valueOf(),
+  customerName: "",
+  mobile: "",
+  email: "",
+  gTotal: 0,
+  placeOn: new Date(),
+  paymentMethod: "",
+  deliveryIn: 0,
+  foodItems: [
+    { foodId: 0, price: 0 , quantity: 0 , totalPrice: 0},
+  ],
+  address: {
+    streetAddress: "",
+    landmark: "",
+    city: "",
+    state: "",
+  },
+}
+
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
-      shouldFocusError: true,
       mode: "onChange",
-      defaultValues: {
-        orderNo: new Date().valueOf(),
-        customerName: "",
-        mobile: "",
-        email: "",
-        gTotal: 0,
-        paymentMethod: "",
-        deliveryIn: 0,
-        foodItems: [
-          { foodId: 0, price: 0 , quantity: 0 , totalPrice: 0},
-        ],
-        address: {
-          streetAddress: "",
-          landmark: "",
-          city: "",
-          state: "",
-        },
-      },
+      defaultValues: async (): Promise<FoodDeliveryFormType> => {
+        if (id === 0){
+          return new Promise(resolve => resolve(defaultValues))
+        }else{
+          const tempOrder = await fetchLastOrder();
+          return new Promise(resolve => resolve(tempOrder ? tempOrder : defaultValues))
+           
+        }
+      }
     });
     
     const {
       handleSubmit,
       control,
       setValue, 
-      getValues
+      getValues,
+      setFocus
     } = methods;
 
     
-    const onSubmit = async (fomrData: FoodDeliveryFormType) => {
+    const onSubmit = async (formData: FoodDeliveryFormType) => {
       await new Promise(resolve => setTimeout(resolve,3000))
-      console.log("🚀 ~ onSubmit ~ fomrData:", fomrData);
+      formData.orderId = 1;
+      formData.placeOn = new Date();
+      createOrder(formData);
     };
 
     const onDemo = () => {
       // setValue("paymentMethod", "COD", {shouldValidate: false})
-      getValues("foodItems.0.foodId")
-      console.log("🚀 ~ onDemo ~ getValues:", getValues("foodItems.0"))
-      console.log("🚀 ~ onDemo ~ getValues:", typeof getValues("foodItems.0.foodId"))
+      // getValues("foodItems.0.foodId")
+      setFocus("customerName")
 
     }
     

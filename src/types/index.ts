@@ -11,11 +11,13 @@ export type AddressFormType = {
 };
 
 export type MasterFoodDeliveryFormType = {
+  orderId: number;
   orderNo: number;
   mobile: string;
   customerName: string;
   email: string;
   gTotal: number;
+  placeOn: Date
 };
 
 export type OrderFoodItemType = {

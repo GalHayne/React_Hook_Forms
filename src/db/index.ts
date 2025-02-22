@@ -1,4 +1,4 @@
-import { FoodType } from "../types";
+import { FoodDeliveryFormType, FoodType } from "../types";
 
 export const getFoodItems = () => {
     return [
@@ -12,4 +12,20 @@ export const getFoodItems = () => {
         { foodId: 8, name: "Onion Rings", price: 40 },
         { foodId: 9, name: "Sweet Tea", price: 30 },
     ] as FoodType[];
+}
+
+const ORDER_KEY = "order";
+
+export const createOrder = (order: FoodDeliveryFormType) => {
+    localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+}
+
+export const fetchLastOrder = async () => {
+    await new Promise(resolve => setTimeout(resolve,3000))
+    const order = localStorage.getItem(ORDER_KEY);
+    if (order === null) {
+        return null
+    }
+
+    return JSON.parse(order) as FoodDeliveryFormType;
 }

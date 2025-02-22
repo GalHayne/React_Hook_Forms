@@ -11,7 +11,7 @@ import { getFoodItems } from "../../../db";
 import { Select } from "../../../controls/Select";
 
 const OrderedFoodItems = () => {
-  const { register, getValues, setValue } = useFormContext<
+  const { register, getValues, setValue, trigger } = useFormContext<
     { gTotal: number } & { foodItems: OrderFoodItemType[] }
   >();
 
@@ -167,11 +167,12 @@ const OrderedFoodItems = () => {
                       },
                       onChange: (e) => {
                         onFoodChange(e, index);
+                        trigger(`foodItems.${index}.quantity`);
                       },
                     })}
                   />
                 </td>
-                <td className="text-start align-middle">{"$" + getValues(`foodItems.${index}.price`)}</td>
+                <td className="text-start pt-3">{"$" + getValues(`foodItems.${index}.price`)}</td>
                 <td>
                   <TextField
                     type="number"
@@ -187,6 +188,20 @@ const OrderedFoodItems = () => {
                       },
                       onChange: () => {
                         updateRowTotalPrice(index);
+                        // trigger(`foodItems.${index}.quantity`);
+                      },
+                      validate: {
+                        notMoreThankStcok: async (value: number) => {
+                          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                          if (value && value > 9){
+                            return "OOS. - Out of Stock";
+                          }
+
+                          return true;
+
+                        },
+
                       },
                       min: {
                         value: 1,

@@ -7,11 +7,12 @@ import { SubmitButton } from "../../controls/SubmitButton";
 import OrderedFoodItems from "./components/OrderedFoodItems";
 import { MasterFoodDeliveryForm } from "./components/MasterFoodDeliveryForm";
 import { createOrder, fetchLastOrder } from "../../db";
+import FormLoader from "../common/FormLoader";
 
 
 const RenderCount = getRenderCount();
 
-const id:number = 0;
+const id:number = 1;
 
 const defaultValues: FoodDeliveryFormType = {
 
@@ -84,7 +85,7 @@ export const FoodDeliveryForm = () => {
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <RenderCount />
-      <div>list of ordered food items</div>
+       <FormLoader control={control}/>
       <FormProvider {...methods}>
         <MasterFoodDeliveryForm/>
         <OrderedFoodItems/>
